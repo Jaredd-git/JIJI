@@ -1,0 +1,89 @@
+create database dbBiblioteca;
+go
+
+use dbBiblioteca;
+go
+
+create table Autores(
+idautor int primary key identity (1,1) not null,
+nombre varchar(30) not null,
+apellido varchar (30) not null,
+nacionalidad varchar (20) not null,
+idgenero int,
+fechaNacimiento date not null,
+codigoAutor int not null);
+
+create table Autores_Libros(
+idautor_libro int primary key identity (1,1),
+idautor int not null,
+idlibro int not null,
+);
+
+create table Editorial(
+idEditorial int primary key identity (1,1),
+editorial varchar (30) not null,
+);
+
+create table Estado(
+idEstado int primary key identity (1,1),
+EstadoLibro varchar (15) not null,
+);
+
+create table Categorias(
+idCategoria int primary key identity (1,1),
+categoria varchar (20) not null,
+);
+
+create table Libros(
+idLibro int primary key identity (1,1),
+fechaEdicion date not null,
+fechaPublicacion date not null,
+NumPaginas int not null,
+idestado int not null,
+anio varchar (4) not null,
+titulo varchar (30) not null,
+resumen varchar (100) not null,
+isbn varchar (18) not null,
+idEditorial int not null,
+idCategoria int not null, 
+);
+
+create table Generos(
+idgenero int primary key identity (1,1),
+genero varchar (10) not null,
+);
+
+alter table Autores_Libros
+add constraint fk_autores_libros
+foreign key (idautor)
+references Autores(idautor);
+
+alter table Autores_Libros
+add constraint fk_Libros_autores
+foreign key (idLibro)
+references Libros(idLibro);
+
+alter table Autores_Libros
+add constraint fk_autores_libros
+foreign key (idautor)
+references Autores(idautor);
+
+alter table Autores
+add constraint fk_autores_generos
+foreign key (idgenero)
+references Generos(idgenero);
+
+alter table Libros
+add constraint fk_libros_editorial
+foreign key (idEditorial)
+references Editorial(idEditorial);
+
+alter table Libros
+add constraint fk_libros_categoria
+foreign key (idCategoria)
+references Categorias(idCategoria);
+
+alter table Libros
+add constraint fk_libros_estados
+foreign key (idestado)
+references Estado(idEstado);
